@@ -5,29 +5,13 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
+#if defined(STM32F103xB)
+#include <stm32f1xx_ll_utils.h>
+#elif defined (STM32F303xC)
+#include <stm32f3xx_ll_utils.h>
+#endif
 
-#define LINE_SIZE       192
-
-typedef struct {
-    char line[LINE_SIZE];
-    int16_t idx;
-    int16_t size;
-} LineParse;
-
-void utilInitSysCounter(void);
-
-void utilmDelay(uint32_t ms);
-void utiluDelay(uint32_t us);
-
-bool utilReadChar(LineParse *lp, char ch);
-
-bool utilIsPrefixInt(char *line, char *prefix, int *ret);
-bool utilIsPrefix(const char *line, const char *prefix);
-void utilTrimLineEnd(char *line);
-
-void utilEnableSwd(bool value);
+#define utilmDelay(ms) LL_mDelay(ms)
 
 #ifdef __cplusplus
 }

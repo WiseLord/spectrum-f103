@@ -162,5 +162,4 @@
 ../src/system/system_stm32f3xx.c
 ../src/timers.c
 ../src/timers.h
-../src/utils.c
 ../src/utils.h

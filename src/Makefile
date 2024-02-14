@@ -43,7 +43,7 @@ C_SOURCES += main.c
 C_SOURCES += spectrum.c
 C_SOURCES += spi.c
 C_SOURCES += timers.c
-C_SOURCES += utils.c
+#C_SOURCES += utils.c
 
 # # Display source files
 # C_SOURCES += $(wildcard display/fonts/font*.c)
