@@ -2,8 +2,11 @@
 
 #include "hwlibs.h"
 
-//#include "settings.h"
-//#include "utils.h"
+#ifdef _USE_SETTINGS
+#include "settings.h"
+#else
+#define settingsRead(param, value) value
+#endif
 
 #define DMA_BUF_SIZE        (FFT_SIZE * SP_CHAN_END)
 
@@ -184,7 +187,7 @@ static void spInitADC(void)
         LL_ADC_StartCalibration(ADC1, LL_ADC_SINGLE_ENDED);
         while (LL_ADC_IsCalibrationOnGoing(ADC1) != 0);
 
-				LL_mDelay(1);
+        LL_mDelay(1);
 
         LL_ADC_Enable(ADC1);
         while (!LL_ADC_IsEnabled(ADC1));
@@ -215,9 +218,9 @@ static void spDoFft(int16_t *dma, FftSample *smpl)
 
 static void spReadSettings(void)
 {
-		spectrum.mode = SP_MODE_STEREO; // (SpMode)settingsRead(PARAM_SPECTRUM_MODE, SP_MODE_LEFT);
-		bool peaks = (/*uint8_t)settingsRead(PARAM_SPECTRUM_PEAKS,*/ true);
-		bool grad = (/*uint8_t)settingsRead(PARAM_SPECTRUM_GRAD,*/ false);
+    spectrum.mode = (SpMode)settingsRead(PARAM_SPECTRUM_MODE, SP_MODE_LEFT);
+    bool peaks = (uint8_t)settingsRead(PARAM_SPECTRUM_PEAKS, true);
+    bool grad = (uint8_t)settingsRead(PARAM_SPECTRUM_GRAD, false);
     bool demo = false;
     spectrum.flags |= ((peaks ? SP_FLAG_PEAKS : SP_FLAG_NONE) |
                        (grad ? SP_FLAG_GRAD : SP_FLAG_NONE) |
